@@ -50,7 +50,7 @@ print(f"Welcome to the app,", login,"\nWe have 3 texts to be analyzed.\n","-"*40
 print ("Enter a number btw. 1 and 3 to select:", end = ' ')
 num_texts = int(input())
 if 0 < num_texts < 4:
-    print(TEXTS[num_texts -1])
+    pass
 else:
     print(f"Number is out of range or undefined symbol")
     quit()

@@ -5,11 +5,104 @@ email: zeizingerlukas@gmail.com
 discord: Lukáš Zeizinger _nantuko
 """
 
-from string_utils import is_camel_case
+import collections
 
 from task_template import TEXTS
      
-from users import user
+from users import users
+
+
+
+def _input_log_and_pass():
+    """Input login and password.
+    If login/password is not correct; terminating the program."""
+
+    while True:
+        try:
+            login = str(input(f'Enter username: '))
+            password = str(input(f'Enter password: '))
+            print(f"-"*40) 
+        except ValueError:
+            print("Please enter correct login and password. Try again ...")
+            continue
+        if login in users:
+            
+            if password == users[login]:
+                print("Welcome to the app, ", login,"\nWe have ",(len(TEXTS)),
+                      " text", word_s(len(TEXTS))," to be analyzed.\n",sep="")
+                print(f"-"*40)   
+                break
+            else:
+                continue
+        else:
+            print(f'unregistered user - wrong login, terminating the program.')
+            quit()
+    return    
+
+
+
+def _inputnumber():
+    """Input integer must be in range. 
+    If it is out of range program terminated."""
+
+    while True:
+        try:
+            print("Enter a number btw. 1 and", (len(TEXTS))," :", end = ' ')
+            num_texts = int(input())
+        except ValueError:
+            print("Undefined symbol ..., sorry")
+            quit()
+        if 0 < num_texts < (len(TEXTS)+1):
+            print(f"-"*40) 
+            return num_texts
+        else:
+            print(f"Number is out of range or undefined symbol")
+            quit()
+
+
+
+def _library_of_words_len():
+    """Automaticly generate dict of lenght word. If counter == None,
+    create new key in dict. 
+    If key is in dict, value +1."""
+
+    len_of_the_word = str(len(row))
+    counter = word_counter.get(len_of_the_word)
+    
+    if counter == None:
+        word_counter.__setitem__(len_of_the_word, 1)
+    else:
+        word_counter[len_of_the_word] = counter + 1
+
+    return
+        
+
+
+def word_s(word):
+    """Mechanism for choosing singular or plural form word"""
+    if word > 1:
+        sz = "s"
+        
+    else:
+        sz = ""
+    return sz
+
+
+
+def get_len(key):
+    return len(key[0])
+
+
+
+def are_or_is(a_i_word):
+    """Mechanism for choosing singular or plural form word"""
+    if a_i_word > 1:
+        a_i = "are"
+        
+    else:
+        a_i = "is"
+    return a_i
+
 
 
 total_word = 0
@@ -19,62 +112,22 @@ lowercase_words = 0
 numeric_strings = 0
 sum_of_all_the_numbers = 0
 
-word_counter = {"1": 0,"2": 0,"3": 0,"4": 0,"5": 0,"6": 0,"7": 0,"8": 0,"9": 0,"10": 0,"11": 0,} 
 
-# zjistí, jestli zadané údaje odpovídají někomu z registrovaných uživatelů,
+word_counter = {} 
 
-login = str(input(f'Enter username: '))
-password = str(input(f'Enter password: '))
-
-# pokud je registrovaný, pozdrav jej a umožni mu analyzovat texty,
-
-if login in user:
-    if password == user[login]:
-        pass
-    else:
-        print (f'unregistered user - wrong login, terminating the program..')
-        quit()
-        
-else:
-    print (f'unregistered user, terminating the program..')
-    quit()
-print(f"-"*40)
-
-# pokud není registrovaný, upozorni jej a ukonči program.
-
-print(f"Welcome to the app,", login,"\nWe have 3 texts to be analyzed.\n","-"*40)
-
-
-# Program nechá uživatele vybrat mezi třemi texty, uloženými v proměnné TEXTS:
-
-print ("Enter a number btw. 1 and 3 to select:", end = ' ')
-num_texts = int(input())
-if 0 < num_texts < 4:
-    pass
-else:
-    print(f"Number is out of range or undefined symbol")
-    quit()
-    
+_input_log_and_pass()
 
 # Pro vybraný text spočítá následující statistiky:
 
-text = TEXTS[num_texts -1].split()
+text = TEXTS[_inputnumber() -1].split()
 
 total_word = len(text)
 
 
-def countword(text):
-    listword = text.split()
-    return len(listword)
-
 for row in text:
 
     row = ("".join(k for k in row if k.isalnum()))
-    x = str(len(row))
-    
-    y = word_counter.get(x)
-
-    word_counter[x] = y + 1   
+    _library_of_words_len()  
     
     if row.isdecimal():
         numeric_strings+=1
@@ -90,10 +143,34 @@ for row in text:
         uppercase_words+=1    
     
         
-print (f"There are",total_word, "words in the selected text.","\nThere are",titlecase_words, "titlecase words.","\nThere are",uppercase_words, "uppercase words.")
-print (f"There are",lowercase_words, "lowercase words.", "\nThere are", numeric_strings, "numeric strings.", "\nThe sum of all the numbers", sum_of_all_the_numbers)
+print (f"There ",are_or_is(total_word), " ",total_word, 
+       " word",word_s(total_word), " in the selected text.",
+       "\nThere ",are_or_is(titlecase_words), " ",titlecase_words, 
+       " titlecase word",word_s(titlecase_words),".",
+       "\nThere ",are_or_is(uppercase_words), " ",uppercase_words, 
+       " uppercase word",word_s(uppercase_words),".",
+       "\nThere ",are_or_is(lowercase_words), " ",lowercase_words, 
+       " lowercase word",word_s(lowercase_words),".", 
+       "\nThere ",are_or_is(numeric_strings), " ",numeric_strings, 
+       " numeric string",word_s(numeric_strings),".", 
+       "\nThe sum of all the number",word_s(sum_of_all_the_numbers)," "
+       , sum_of_all_the_numbers,sep="")
+
+
 print(f"-"*40, "\nLEN |    OCCURENCES      |NR.","\n","-"*40)
 
-for key, value in word_counter.items():
+
+# initializing dictionary
+
+s_word_counter = collections.OrderedDict(sorted(word_counter.items()))
+
+# sorting using sort()
+# external to render logic 
+list_of_library = list(s_word_counter.items())
+list_of_library.sort(key = get_len)
+ 
+# reordering to dictionary
+sorted_library = {ele[0] : ele[1]  for ele in list_of_library}
+for key, value in sorted_library.items():
     
     print(f"{key:>3}", "|", value*"*", (17-value)*" ", "|", value)

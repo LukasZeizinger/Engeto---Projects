@@ -29,7 +29,9 @@ def _input_log_and_pass():
             
             if password == users[login]:
                 print("Welcome to the app, ", login,"\nWe have ",(len(TEXTS)),
-                      " text", word_s(len(TEXTS))," to be analyzed.\n",sep="")
+                " text" + str("s" if len(TEXTS) > 1 else "") + 
+                " to be analyzed.\n", sep="")
+
                 print(f"-"*40)   
                 break
             else:
@@ -62,30 +64,20 @@ def _inputnumber():
 
 
 def _library_of_words_len():
-    """Automaticly generate dict of lenght word. If counter == None,
-    create new key in dict. 
-    If key is in dict, value +1."""
-
+    """Automatically generate a dictionary of word lengths.
+    If the counter is None, create a new key in the dictionary.
+    If the key is in the dictionary, increment the value."""
     len_of_the_word = str(len(row))
     counter = word_counter.get(len_of_the_word)
-    
-    if counter == None:
-        word_counter.__setitem__(len_of_the_word, 1)
+
+    if counter is None:
+        word_counter[len_of_the_word] = 1
     else:
         word_counter[len_of_the_word] = counter + 1
 
     return
         
 
-
-def word_s(word):
-    """Mechanism for choosing singular or plural form word"""
-    if word > 1:
-        sz = "s"
-        
-    else:
-        sz = ""
-    return sz
 
 
 
@@ -95,13 +87,9 @@ def get_len(key):
 
 
 def are_or_is(a_i_word):
-    """Mechanism for choosing singular or plural form word"""
-    if a_i_word > 1:
-        a_i = "are"
-        
-    else:
-        a_i = "is"
-    return a_i
+    """Mechanism for choosing singular or plural form of word"""
+    return "are" if a_i_word > 1 else "is"
+
 
 
 
@@ -110,6 +98,7 @@ titlecase_words = 0
 uppercase_words = 0
 lowercase_words = 0
 numeric_strings = 0
+tresh = 0
 sum_of_all_the_numbers = 0
 
 
@@ -119,43 +108,38 @@ _input_log_and_pass()
 
 # Pro vybraný text spočítá následující statistiky:
 
-text = TEXTS[_inputnumber() -1].split()
+text = TEXTS[_inputnumber() - 1].split()
 
 total_word = len(text)
 
-
 for row in text:
+    row = "".join(k for k in row if k.isalnum())
+    _library_of_words_len()
 
-    row = ("".join(k for k in row if k.isalnum()))
-    _library_of_words_len()  
-    
     if row.isdecimal():
-        numeric_strings+=1
+        numeric_strings += 1
         sum_of_all_the_numbers += int(row)
-
+    elif row.isupper():
+        uppercase_words += 1
     elif row.islower():
-        lowercase_words+=1
-    
+        lowercase_words += 1
     elif row.istitle():
-        titlecase_words+=1
-    
-    else:
-        uppercase_words+=1    
+        titlecase_words += 1
     
         
-print (f"There ",are_or_is(total_word), " ",total_word, 
-       " word",word_s(total_word), " in the selected text.",
-       "\nThere ",are_or_is(titlecase_words), " ",titlecase_words, 
-       " titlecase word",word_s(titlecase_words),".",
-       "\nThere ",are_or_is(uppercase_words), " ",uppercase_words, 
-       " uppercase word",word_s(uppercase_words),".",
-       "\nThere ",are_or_is(lowercase_words), " ",lowercase_words, 
-       " lowercase word",word_s(lowercase_words),".", 
-       "\nThere ",are_or_is(numeric_strings), " ",numeric_strings, 
-       " numeric string",word_s(numeric_strings),".", 
-       "\nThe sum of all the number",word_s(sum_of_all_the_numbers)," "
-       , sum_of_all_the_numbers,sep="")
-
+print(
+    f"There {are_or_is(total_word)} {total_word} "
+    f"word{'s' if total_word > 1 else ''} in the selected text.",
+    f"\nThere {are_or_is(titlecase_words)} {titlecase_words} "
+    f"titlecase word{'s' if titlecase_words > 1 else ''}.",
+    f"\nThere {are_or_is(uppercase_words)} {uppercase_words} "
+    f"uppercase word{'s' if uppercase_words > 1 else ''}.",
+    f"\nThere {are_or_is(lowercase_words)} {lowercase_words} "
+    f"uppercase word{'s' if lowercase_words > 1 else ''}.",
+    f"\nThere {are_or_is(numeric_strings)} {numeric_strings} "
+    f"uppercase word{'s' if numeric_strings > 1 else ''}.",
+    f"\nThe sum of all the numbers {sum_of_all_the_numbers}"
+)
 
 print(f"-"*40, "\nLEN |    OCCURENCES      |NR.","\n","-"*40)
 

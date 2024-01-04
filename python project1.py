@@ -106,7 +106,6 @@ word_counter = {}
 
 _input_log_and_pass()
 
-# Pro vybraný text spočítá následující statistiky:
 
 text = TEXTS[_inputnumber() - 1].split()
 

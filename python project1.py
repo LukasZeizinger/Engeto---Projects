@@ -11,8 +11,6 @@ from task_template import TEXTS
      
 from users import users
 
-
-
 def _input_log_and_pass():
     """Input login and password.
     If login/password is not correct; terminating the program."""
@@ -41,8 +39,6 @@ def _input_log_and_pass():
             quit()
     return    
 
-
-
 def _inputnumber():
     """Input integer must be in range. 
     If it is out of range program terminated."""
@@ -61,8 +57,6 @@ def _inputnumber():
             print(f"Number is out of range or undefined symbol")
             quit()
 
-
-
 def _library_of_words_len():
     """Automatically generate a dictionary of word lengths.
     If the counter is None, create a new key in the dictionary.
@@ -78,20 +72,12 @@ def _library_of_words_len():
     return
         
 
-
-
-
 def get_len(key):
     return len(key[0])
-
-
 
 def are_or_is(a_i_word):
     """Mechanism for choosing singular or plural form of word"""
     return "are" if a_i_word > 1 else "is"
-
-
-
 
 total_word = 0
 titlecase_words = 0
@@ -101,11 +87,11 @@ numeric_strings = 0
 tresh = 0
 sum_of_all_the_numbers = 0
 
-
 word_counter = {} 
 
 _input_log_and_pass()
 
+# Pro vybraný text spočítá následující statistiky:
 
 text = TEXTS[_inputnumber() - 1].split()
 
@@ -118,14 +104,14 @@ for row in text:
     if row.isdecimal():
         numeric_strings += 1
         sum_of_all_the_numbers += int(row)
-    elif row.isupper():
+    elif row.isupper() and row.isalpha():
         uppercase_words += 1
     elif row.islower():
         lowercase_words += 1
     elif row.istitle():
         titlecase_words += 1
     
-        
+       
 print(
     f"There {are_or_is(total_word)} {total_word} "
     f"word{'s' if total_word > 1 else ''} in the selected text.",
@@ -134,9 +120,9 @@ print(
     f"\nThere {are_or_is(uppercase_words)} {uppercase_words} "
     f"uppercase word{'s' if uppercase_words > 1 else ''}.",
     f"\nThere {are_or_is(lowercase_words)} {lowercase_words} "
-    f"uppercase word{'s' if lowercase_words > 1 else ''}.",
+    f"lowercase word{'s' if lowercase_words > 1 else ''}.",
     f"\nThere {are_or_is(numeric_strings)} {numeric_strings} "
-    f"uppercase word{'s' if numeric_strings > 1 else ''}.",
+    f"numeric string{'s' if numeric_strings > 1 else ''}.",
     f"\nThe sum of all the numbers {sum_of_all_the_numbers}"
 )
 

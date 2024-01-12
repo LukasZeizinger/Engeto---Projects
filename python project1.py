@@ -115,7 +115,7 @@ for row in text:
 print(
     f"There {'are' if total_word > 1 else 'is'} {total_word} "
     f"word{'s' if total_word > 1 else ''} in the selected text.",
-    f"There {'are' if titlecase_words > 1 else 'is'} {titlecase_words} "
+    f"\nThere {'are' if titlecase_words > 1 else 'is'} {titlecase_words} "
     f"titlecase word{'s' if titlecase_words > 1 else ''}.",
     f"\nThere {'are' if uppercase_words > 1 else 'is'} {uppercase_words} "
     f"uppercase word{'s' if uppercase_words > 1 else ''}.",

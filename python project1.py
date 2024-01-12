@@ -75,7 +75,7 @@ def _library_of_words_len():
 def get_len(key):
     return len(key[0])
 
-def are_or_is(a_i_word):
+#def are_or_is(a_i_word):
     """Mechanism for choosing singular or plural form of word"""
     return "are" if a_i_word > 1 else "is"
 
@@ -113,15 +113,15 @@ for row in text:
     
        
 print(
-    f"There {are_or_is(total_word)} {total_word} "
+    f"There {'are' if total_word > 1 else 'is'} {total_word} "
     f"word{'s' if total_word > 1 else ''} in the selected text.",
-    f"\nThere {are_or_is(titlecase_words)} {titlecase_words} "
+    f"There {'are' if titlecase_words > 1 else 'is'} {titlecase_words} "
     f"titlecase word{'s' if titlecase_words > 1 else ''}.",
-    f"\nThere {are_or_is(uppercase_words)} {uppercase_words} "
+    f"\nThere {'are' if uppercase_words > 1 else 'is'} {uppercase_words} "
     f"uppercase word{'s' if uppercase_words > 1 else ''}.",
-    f"\nThere {are_or_is(lowercase_words)} {lowercase_words} "
+    f"\nThere {'are' if lowercase_words > 1 else 'is'} {lowercase_words} "
     f"lowercase word{'s' if lowercase_words > 1 else ''}.",
-    f"\nThere {are_or_is(numeric_strings)} {numeric_strings} "
+    f"\nThere {'are' if numeric_strings > 1 else 'is'} {numeric_strings} "
     f"numeric string{'s' if numeric_strings > 1 else ''}.",
     f"\nThe sum of all the numbers {sum_of_all_the_numbers}"
 )
